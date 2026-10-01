@@ -1,0 +1,70 @@
+# Copy this file to config/settings.yaml and edit it. Every key is optional;
+# anything you leave out falls back to the built-in default shown here.
+# API keys do NOT belong in this file - put them in .env (see .env.example).
+
+# Target length of the finished video, in minutes. Can be overridden with --minutes.
+total_minutes: 5
+
+paths:
+  output_dir: output          # everything generated goes here (footage, voice-over, caches)
+
+http:
+  max_retries: 3              # retries on network errors, HTTP 429 and 5xx
+  backoff_s: 2.0              # wait before the first retry; doubles each time
+  timeout_s: 15
+  download_timeout_s: 120
+
+ai:                           # AI is used for search queries and relevance scoring
+  use_ollama: true            # try a local Ollama server first
+  ollama_url: http://localhost:11434
+  ollama_model: mistral
+  gemini_model: gemini-2.0-flash   # used when GEMINI_API_KEY is set and Ollama is unavailable
+  timeout_s: 60
+
+footage:
+  # Sources are tried in this order for every search query.
+  # Valid names: pexels_video, pixabay_video, wikimedia, pexels_photo, pixabay_photo
+  # Sources that need an API key are only allowed if the key is set in .env;
+  # remove a source from this list if you do not want to use it.
+  source_order:
+    - pexels_video
+    - pixabay_video
+    - wikimedia
+    - pexels_photo
+    - pixabay_photo
+  clips_per_paragraph: 3      # footage items to look for per paragraph
+  clips_intro: 9              # footage items to look for in the first section
+  confidence_high: 7          # AI relevance score (0-10) at or above which an item is accepted
+  confidence_low: 5           # below this an item is rejected; in between the AI is asked again
+  pexels_per_page: 10
+  pixabay_per_page: 10
+  wikimedia_contact: ""       # optional e-mail or URL added to the Wikimedia User-Agent
+
+voiceover:                    # ElevenLabs text-to-speech
+  voice_id: ""                # required for voice-over: copy the ID of a voice from your ElevenLabs library
+  model_id: eleven_turbo_v2
+  output_format: mp3_44100_128
+  stability: 0.50
+  similarity_boost: 0.75
+  style: 0.0
+  use_speaker_boost: true
+  speed: 0.94
+
+capcut:
+  # Leave empty to use the default CapCut projects folder of your OS:
+  #   macOS:   ~/Movies/CapCut/User Data/Projects/com.lveditor.draft
+  #   Windows: %LOCALAPPDATA%\CapCut\User Data\Projects\com.lveditor.draft
+  projects_dir: ""
+  # Optional title font. Leave empty to use CapCut's default font.
+  title_font_path: ""         # for example a .ttf file you have installed
+  title_font_name: ""         # defaults to the font file name
+  title_font_size: 20.0
+  title_scale: 0.6
+  title_duration_s: 5
+  title_fade_s: 1
+  # [until_second, max_cut_length_second]: cuts get longer as the video goes on.
+  cadence_bands: [[60, 3], [120, 5], [600, 8], [900, 10]]
+  cadence_default_s: 15
+  canvas_width: 1920
+  canvas_height: 1080
+  fps: 30

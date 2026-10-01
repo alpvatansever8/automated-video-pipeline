@@ -1,0 +1,57 @@
+# Secrets
+.env
+.env.*
+!.env.example
+config/settings.yaml
+
+# Generated output and caches
+output/
+downloads/
+cache/
+project_assets/
+voiceovers/
+extras_temp/
+*_plan.txt
+attribution*.txt
+downloaded_registry.json
+landmark_cache.json
+
+# CapCut projects
+com.lveditor.draft/
+*.capcut/
+
+# Media (documentation images are allowed)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.mp3
+*.wav
+*.m4a
+*.jpg
+*.jpeg
+*.png
+*.gif
+*.webp
+!docs/images/*.png
+!docs/images/*.jpg
+!docs/images/*.gif
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+env/
+.pytest_cache/
+.coverage
+
+# macOS / Windows / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
